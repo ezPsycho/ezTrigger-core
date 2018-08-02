@@ -1,0 +1,12 @@
+{
+  "name": "@ez-trigger/core",
+  "version": "0.0.20",
+  "main": "src/shell.js",
+  "module": "src/index.js",
+  "author": "Losses Don",
+  "license": "MIT",
+  "dependencies": {
+    "esm": "^3.0.72",
+    "is-callable": "^1.1.4"
+  }
+}
