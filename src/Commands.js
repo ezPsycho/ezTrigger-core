@@ -29,15 +29,18 @@ class Commands {
     return true;
   }
 
-  deregister(command) {
-    if (this.isFreezed(command)) {
-      throw new TypeError(
-        `Command '${command}' is freezed, you can't deregister it!`
-      );
-    }
+  deregister(commands) {
+    const commandList = Array.isArray(commands) ? commands : [commands];
 
-    delete this.commands[command];
+    commandList.forEach(command => {
+      if (this.isFreezed(command)) {
+        throw new TypeError(
+          `Command '${command}' is freezed, you can't deregister it!`
+        );
+      }
 
+      delete this.commands[command];
+    });
     return true;
   }
 
