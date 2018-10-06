@@ -39,6 +39,10 @@ class Records {
 
     return fd;
   }
+
+  clear() {
+    this.data = [];
+  } 
 }
 
 export default Records;
