@@ -11,7 +11,7 @@ import getTimestamp from './getTimestamp';
 class Records extends EventEmitter {
   constructor(defaultPath) {
     super();
-    
+
     this.data = [];
     this.defaultPath = defaultPath;
   }
@@ -23,14 +23,22 @@ class Records extends EventEmitter {
 
   async export(filename, dir = this.defaultPath, appendTime = true) {
     const timestamp = appendTime
-      ? `${moment().format('YYYYMMDD-hhmmss')}~${getTimestamp()}`
+      ? `${moment().format('YYYYMMDD-HHmmss')} ${getTimestamp()}`
       : '';
+
+    const columns = new Set();
+
+    this.data.forEach(line =>
+      Object.keys(line).forEach(item => columns.add(item))
+    );
+
     const fd = `${path.join(dir, `${filename} ${timestamp}`)}.csv`;
     const csv = await new Promise((resolve, reject) =>
       stringify(
         this.data,
         {
-          header: true
+          header: true,
+          columns: [...columns]
         },
         (err, data) => {
           if (err) reject(err);
@@ -47,7 +55,7 @@ class Records extends EventEmitter {
   clear() {
     this.data = [];
     this.emit('record-updated');
-  } 
+  }
 }
 
 export default Records;
