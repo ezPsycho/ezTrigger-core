@@ -1,20 +1,24 @@
 import fs from 'fs';
 import path from 'path';
 import util from 'util';
+import EventEmitter from 'events';
 
 import moment from 'moment';
 import stringify from 'csv-stringify';
 
 import getTimestamp from './getTimestamp';
 
-class Records {
+class Records extends EventEmitter {
   constructor(defaultPath) {
+    super();
+    
     this.data = [];
     this.defaultPath = defaultPath;
   }
 
   add(data) {
     this.data.push(Object.assign({ time: getTimestamp() }, data));
+    this.emit('record-updated', this.clients);
   }
 
   async export(filename, dir = this.defaultPath, appendTime = true) {
@@ -42,6 +46,7 @@ class Records {
 
   clear() {
     this.data = [];
+    this.emit('record-updated');
   } 
 }
 
