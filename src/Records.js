@@ -18,7 +18,7 @@ class Records extends EventEmitter {
 
   add(data) {
     this.data.push(Object.assign({ time: getTimestamp() }, data));
-    this.emit('record-updated', this.clients);
+    this.emit('record-updated');
   }
 
   async export(filename, dir = this.defaultPath, appendTime = true) {
